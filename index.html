@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Currency Converter with Flags</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  
+  <div class="converter-container">
+    <h2> Currency Converter</h2>
+    <img src="currency converter.png" alt="Currency Converter Logo" class="converter-img">
+    <div class="converter-box">
+      <input type="number" id="amount" placeholder="Enter amount">
+
+      <div class="dropdowns">
+        <div class="custom-select" id="from-select"></div>
+        <div class="arrow">⇄</div>
+        <div class="custom-select" id="to-select"></div>
+        
+      </div>
+
+
+  
+
+      <button onclick="convertCurrency()">Convert</button>
+
+      <p id="result">Converted amount will appear here...</p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

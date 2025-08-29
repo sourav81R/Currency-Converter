@@ -1,0 +1,156 @@
+body {
+  font-family: Arial, sans-serif;
+  background-image:("all country currency image.jpg");
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+body {
+    background-image: url("all\ country\ currency\ image.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.converter-container {
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  text-align: center;
+  width: 360px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+
+  /* Add black border */
+  border: 2px solid black;  /* You can increase 4px → 6px, 8px etc. */
+}
+
+
+
+
+.converter-container h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+.converter-container h2 {
+  margin-bottom: 10px;
+  color: #333;
+  font-size: 24px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.converter-img {
+  height: 40px;       /* same height as heading text */
+  width: auto;        /* keep aspect ratio */
+  margin-left: 10px;  /* small space between heading & image */
+  vertical-align: middle;
+}
+
+
+.converter-box input,
+.converter-box button {
+  width: 100%;
+  padding: 8px;
+ margin: 8px 0;
+
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  justify-content: center;
+
+}
+
+
+
+
+
+.converter-box button {
+  background: #2575fc;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.converter-box button:hover {
+  background: #1e5ed7;
+}
+
+#result {
+  margin-top: 15px;
+  font-weight: bold;
+  color: #444;
+}
+
+.dropdowns {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+/* Custom Dropdown */
+.custom-select {
+  position: relative;
+  width: 48%;
+  user-select: none;
+}
+.arrow {
+  font-size: 26px;
+  font-weight: bold;
+  margin: 0 15px;
+  color: #333;
+}
+
+
+.selected {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #ccc;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #fff;
+}
+
+.selected img {
+  width: 25px;
+  height: 18px;
+  margin-right: 8px;
+  border-radius: 4px;
+}
+
+.options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+  display: none;
+  z-index: 1000;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.option:hover {
+  background: #f0f0f0;
+}
+
+.option img {
+  width: 25px;
+  height: 18px;
+  margin-right: 8px;
+  border-radius: 4px;
+}
