@@ -30,9 +30,10 @@ async function loadCurrencies() {
   });
 }
 
-// Create custom dropdown
+// Create custom dropdown with search + Enter support
 function createCustomDropdown(containerId, currencies, defaultValue, onChange) {
   const container = document.getElementById(containerId);
+  container.innerHTML = ""; // Clear old dropdown
 
   const selected = document.createElement("div");
   selected.className = "selected";
@@ -40,44 +41,82 @@ function createCustomDropdown(containerId, currencies, defaultValue, onChange) {
   const optionsDiv = document.createElement("div");
   optionsDiv.className = "options";
 
-  currencies.forEach(currency => {
-    const option = document.createElement("div");
-    option.className = "option";
+  // 🔎 Search input
+  const searchInput = document.createElement("input");
+  searchInput.type = "text";
+  searchInput.placeholder = "Search currency...";
+  searchInput.className = "search-box";
+  optionsDiv.appendChild(searchInput);
 
-    const img = document.createElement("img");
-    const countryCode = currencyToCountry[currency];
-    img.src = countryCode ? `https://flagcdn.com/48x36/${countryCode}.png` : "";
+  // Render options function
+  function renderOptions(filterText = "") {
+    optionsDiv.querySelectorAll(".option").forEach(opt => opt.remove());
 
-    const span = document.createElement("span");
-    span.textContent = currency;
+    currencies
+      .filter(currency => currency.toLowerCase().includes(filterText.toLowerCase()))
+      .forEach(currency => {
+        const option = document.createElement("div");
+        option.className = "option";
 
-    option.appendChild(img);
-    option.appendChild(span);
+        const img = document.createElement("img");
+        const countryCode = currencyToCountry[currency];
+        img.src = countryCode ? `https://flagcdn.com/48x36/${countryCode}.png` : "";
 
-    option.addEventListener("click", () => {
-      selected.innerHTML = "";
+        const span = document.createElement("span");
+        span.textContent = currency;
+
+        option.appendChild(img);
+        option.appendChild(span);
+
+        option.addEventListener("click", () => {
+          setSelected(currency, img.src);
+        });
+
+        optionsDiv.appendChild(option);
+
+        // Default selection
+        if (currency === defaultValue) {
+          setSelected(currency, img.src);
+        }
+      });
+  }
+
+  // Helper to set selected value
+  function setSelected(currency, imgSrc) {
+    selected.innerHTML = "";
+    if (imgSrc) {
       const newImg = document.createElement("img");
-      newImg.src = img.src;
+      newImg.src = imgSrc;
       selected.appendChild(newImg);
-      selected.appendChild(document.createTextNode(currency));
-      optionsDiv.style.display = "none";
-      onChange(currency);
-    });
+    }
+    selected.appendChild(document.createTextNode(currency));
+    optionsDiv.style.display = "none";
+    onChange(currency);
+  }
 
-    optionsDiv.appendChild(option);
+  // Filter while typing + Enter key select
+  searchInput.addEventListener("keyup", (e) => {
+    const filter = e.target.value;
+    renderOptions(filter);
 
-    // Set default
-    if (currency === defaultValue) {
-      selected.innerHTML = "";
-      const defaultImg = document.createElement("img");
-      defaultImg.src = img.src;
-      selected.appendChild(defaultImg);
-      selected.appendChild(document.createTextNode(currency));
+    // If user presses Enter, auto select first match
+    if (e.key === "Enter") {
+      const firstMatch = currencies.find(c =>
+        c.toLowerCase().includes(filter.toLowerCase())
+      );
+      if (firstMatch) {
+        const countryCode = currencyToCountry[firstMatch];
+        const imgSrc = countryCode ? `https://flagcdn.com/48x36/${countryCode}.png` : "";
+        setSelected(firstMatch, imgSrc);
+      }
     }
   });
 
+  renderOptions();
+
   selected.addEventListener("click", () => {
     optionsDiv.style.display = optionsDiv.style.display === "block" ? "none" : "block";
+    searchInput.focus();
   });
 
   container.appendChild(selected);
@@ -101,4 +140,16 @@ async function convertCurrency() {
   result.innerText = `${amount} ${fromCurrency} = ${converted} ${toCurrency}`;
 }
 
+// 🔄 Swap currencies on arrow click
+document.querySelector(".arrow").addEventListener("click", () => {
+  [fromCurrency, toCurrency] = [toCurrency, fromCurrency];
+
+  // Reload dropdowns with swapped defaults
+  loadCurrencies();
+
+  // Auto-convert instantly after swap
+  convertCurrency();
+});
+
+// Initial load
 loadCurrencies();
